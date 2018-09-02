@@ -3,7 +3,10 @@
 '''
 Anna Bonazzi, 02/09/2018
 
-# Script to scrape water-relevant articles from Indian newspaper The Hindu (https://www.thehindu.com/archive/), with a focus on newspaper sections concerning Tamil Nadu and Chennai. Saves articles as "section_date_title.txt"
+Script to scrape water-relevant articles from Indian newspaper The Hindu (https://www.thehindu.com/archive/),
+with a focus on newspaper sections concerning Tamil Nadu and Chennai. Saves articles as "section_date_title.txt".
+
+Scrapes with requests
 
 '''
 # To time the script

@@ -23,9 +23,9 @@ import requests
 # Variables to be defined
 out_dir = '/home/anna/Documents/corpus_work/The_Hindu'
 archive = 'https://www.thehindu.com/archive/web/'
-start_date = '15/08/2009'
-end_date = '01/09/2018'
-options = 'water|flood|drought|drainage|sewage|inundation|rain|stream|river|ocean|lake|reservoir'
+start_date = '28/08/2009'
+end_date = '31/12/2015'
+options = 'water|flood|drought|drainage|sewage|inundation|rain|ocean|lake|reservoir'
 # Allows to separate results in 2 groups of choice
 folder1 = 'tn_articles'
 folder2 = 'all_articles'
@@ -54,7 +54,7 @@ start = datetime.datetime.strptime(start_date, '%d/%m/%Y')
 end = datetime.datetime.strptime(end_date, '%d/%m/%Y')
 date_generated = [start + datetime.timedelta(days=x) for x in range(0, (end-start).days)]
 for d in date_generated:
-    date = d.strftime('%d/%m/%Y')
+    date = d.strftime('%Y/%m/%d')
     dates.append(date)
 
 for date in dates:
@@ -71,9 +71,10 @@ for date in dates:
     # Saves article links for each section
     articles = defaultdict(list)
     for s in sections:
-        art_links = tree.xpath('//section[@id="section_'+str(int(sections.index(s))+1)+'"]//div[@class="section-container"]/div/div/div/ul/li/a/@href')
-        for a in art_links:
-            articles[s].append(a)
+        if ('tamil nadu' or 'chennai') in s:
+            art_links = tree.xpath('//section[@id="section_'+str(int(sections.index(s))+1)+'"]//div[@class="section-container"]/div/div/div/ul/li/a/@href')
+            for a in art_links:
+                articles[s].append(a)
      
     # Gets article text
     for section in articles: 
@@ -106,7 +107,10 @@ for date in dates:
                     folder = folder1
                 else:
                     folder = folder2
-                with open(folder+'/'+section+'_'+date.replace('/', '_')+'_'+title+'.txt', 'w') as out:
+                to_remove = ['.', ',', '/', '\\', '?', '!', '<', '>', '\'', '"', '-', '‘', '’', ':', ';', '`', '(', ')', '“', '”']
+                for r in to_remove:
+                    title = title.replace(r, '')
+                with open(folder+'/'+date.replace('/', '_')+'_'+section.replace(' ', '_')+'_'+title.replace(' ', '_')+'.txt', 'w') as out:
                     out.write('<title>'+title+'</title>\n<date>'+date+'</date>\n<author>'+author+'</author>\n<article>\n')
                     # Cleans article text of initial \n
                     if text[0] == '\n':
@@ -118,5 +122,5 @@ for date in dates:
    
 #--------------------------
 # To time the script
-time = datetime.now() - startTime
-print ("\n(Script running time: " + str(time) + ")")
+#time = datetime.now() - startTime
+#print ("\n(Script running time: " + str(time) + ")")

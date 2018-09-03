@@ -107,9 +107,11 @@ for date in dates:
                     folder = folder1
                 else:
                     folder = folder2
+                # Removes punctuation from title
                 to_remove = ['.', ',', '/', '\\', '?', '!', '<', '>', '\'', '"', '-', '‘', '’', ':', ';', '`', '(', ')', '“', '”']
                 for r in to_remove:
                     title = title.replace(r, '')
+                # Prints out results
                 with open(folder+'/'+date.replace('/', '_')+'_'+section.replace(' ', '_')+'_'+title.replace(' ', '_')+'.txt', 'w') as out:
                     out.write('<title>'+title+'</title>\n<date>'+date+'</date>\n<author>'+author+'</author>\n<article>\n')
                     # Cleans article text of initial \n
